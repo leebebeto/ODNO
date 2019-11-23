@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1001</width>
+    <height>753</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>180</y>
+     <width>141</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="blurry_layout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="blurry_option">
+      <property name="text">
+       <string>OPTION 1</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QRadioButton" name="blurry_people_button">
+      <property name="text">
+       <string>People</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QRadioButton" name="blurry_boxes_button">
+      <property name="text">
+       <string>Boxes</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>340</y>
+     <width>141</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="conversion_layout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="detection_option">
+      <property name="text">
+       <string>OPTION 2</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QRadioButton" name="straight_button">
+      <property name="text">
+       <string>Straight</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QRadioButton" name="biggest_button">
+      <property name="text">
+       <string>Biggest</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>650</y>
+     <width>141</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="blurry_layout_2">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="reset">
+      <property name="text">
+       <string>         Reset         </string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="exit">
+      <property name="text">
+       <string>         Exit          </string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1001</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="photo_video_layout">
+    <item>
+     <widget class="QToolButton" name="photo_button">
+      <property name="text">
+       <string>PHOTO</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="video_button">
+      <property name="text">
+       <string>VIDEO</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>139</x>
+     <y>179</y>
+     <width>861</width>
+     <height>571</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="resultLayout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="upload_button">
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Upload your file here!</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

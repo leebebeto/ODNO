@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>997</width>
+    <height>753</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>0</y>
+     <width>861</width>
+     <height>751</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="resultLayout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="upload_button">
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Upload your file here!</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label">
+      <property name="maximumSize">
+       <size>
+        <width>600</width>
+        <height>500</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>141</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="photo_video_layout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="photo_button">
+      <property name="text">
+       <string>        Photo        </string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="video_button">
+      <property name="text">
+       <string>        Video         </string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>120</y>
+     <width>141</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="blurry_layout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="blurry_people_button">
+      <property name="text">
+       <string> Blurry with people</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="blurry_boxes_button">
+      <property name="text">
+       <string> Blurry with boxes</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>280</y>
+     <width>141</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="conversion_layout">
+    <item>
+     <widget class="QToolButton" name="face_key_point_button">
+      <property name="text">
+       <string>  Face Key Point  </string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="biggest_button">
+      <property name="text">
+       <string>       Biggest       </string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QToolButton" name="conversion_button">
+      <property name="text">
+       <string> Start Conversion!</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>650</y>
+     <width>141</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="blurry_layout_2">
+    <item>
+     <widget class="QPushButton" name="reset">
+      <property name="text">
+       <string>Reset</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QToolButton" name="exit">
+      <property name="text">
+       <string>         Exit          </string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
