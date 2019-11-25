@@ -199,7 +199,6 @@ class Ui_Form(object):
 		self.label.setPixmap(self.pixmap)
 		self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 
-
 		# blurred_img  = img
 		# blurred_bgr = cv2.cvtColor(blurred_img, cv2.COLOR_RGB2BGR) # rgb 조정
 		# original_img = cv2.imread(img_path) # original
@@ -247,6 +246,7 @@ class Ui_Form(object):
 		for button in self.buttons.keys():
 			self.buttons[button] = 0
 			button.setStyleSheet("background-color: light gray")
+		self.test()
 
 	def button_clicked_colored(self, button, value):
 		if self.buttons[button] % 2 ==  0:
@@ -259,8 +259,7 @@ class Ui_Form(object):
 	def conversion(self, img_path):
 		print('before conversion')
 		self.conversion_button.clicked.connect(partial(self.object_detection_api, img_path, threshold=0.8))
-		self.conversion_button.setParent(None)
-	
+
 	def retranslateUi(self, Form):
 		_translate = QtCore.QCoreApplication.translate
 		Form.setWindowTitle(_translate("Form", "Object Detection for No Object"))
