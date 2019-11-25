@@ -139,6 +139,93 @@ class Ui_Form(object):
 		self.retranslateUi(Form)
 		QtCore.QMetaObject.connectSlotsByName(Form)
 
+	# def object_detection_api(self, img_path, threshold=0.5, rect_th=2, text_size=1.5, text_th=2): 
+	# 	img = Image.open(img_path) # Load the image
+	# 	transform = T.Compose([T.ToTensor()]) # Defing PyTorch Transform
+	# 	img = transform(img) # Apply the transform to the image
+	# 	pred = self.model([img]) # Pass the image to the model
+	# 	pred_class = [self.COCO_INSTANCE_CATEGORY_NAMES[i] for i in list(pred[0]['labels'].numpy())]  
+	# 	pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
+	# 	pred_score = list(pred[0]['scores'].detach().numpy())
+	# 	pred_t = [pred_score.index(x) for x in pred_score if x > threshold][-1] 
+	# 	pred_boxes = pred_boxes[:pred_t+1]
+	# 	pred_class = pred_class[:pred_t+1]
+	# 	boxes = pred_boxes
+	# 	pred_cls = pred_class
+	# 	img = cv2.imread(img_path)
+	# 	img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
+	# 	for i in range(len(boxes)):
+	# 		left_x = round(boxes[i][0][0])
+	# 		left_y = round(boxes[i][0][1])
+	# 		right_x = round(boxes[i][1][0])
+	# 		right_y = round(boxes[i][1][1])
+	# 		# print(left_x, left_y, right_x, right_y)
+	# 		try:
+	# 			pass
+	# 			# cv2.rectangle(img, (int(left_x), int(left_y)), (int(right_x), int(right_y)), color=(103, 142, 240), thickness=rect_th) # Draw Rectangle with the coordinates
+	# 		except:
+	# 			pass
+	# 		# cv2.putText(img,pred_cls[i], boxes[i][0], cv2.FONT_HERSHEY_SIMPLEX, text_size, (0,255,0),thickness=text_th) # Write the prediction class
+	# 	box_size_dict = {}
+	# 	box_coord_dict = {}
+	# 	for i in range(len(boxes)):
+	# 		x_len = abs(boxes[i][0][0] - boxes[i][1][0])
+	# 		y_len = abs(boxes[i][0][1] - boxes[i][1][1])
+	# 		box_size = x_len * y_len
+	# 		box_size_dict[i] = box_size
+	# 		box_coord_dict[i] = boxes[i] 
+	# 	box_size_dict = sorted(box_size_dict.items(), key = lambda x: x[1], reverse = True)
+
+	# 	for i in range(len(box_size_dict)):
+	# 		box_idx = box_size_dict[i][0]
+	# 		if i ==0:       
+	# 			try:
+	# 				pass
+	# 				# cv2.rectangle(img, box_coord_dict[box_idx][0], box_coord_dict[box_idx][1],color=(103, 142, 240), thickness= rect_th) # Draw Rectangle with the coordinates
+	# 			except:
+	# 				print('i=0 error')
+	# 		else:
+	# 			try:
+	# 				crop_img = img[int(boxes[box_idx][0][1]):int(boxes[box_idx][1][1]), int(boxes[box_idx][0][0]):int(boxes[box_idx][1][0])]
+	# 				noised_img = cv2.blur(crop_img,(7,7),0)
+	# 				img[int(boxes[box_idx][0][1]):int(boxes[box_idx][1][1]), int(boxes[box_idx][0][0]):int(boxes[box_idx][1][0])] = noised_img
+	# 				# cv2.rectangle(img, box_coord_dict[box_size_dict[i][0]][0], box_coord_dict[box_size_dict[i][0]][1], color=(103, 142, 240), thickness=rect_th) # Draw Rectangle with the coordinates
+	# 			except:
+	# 				print('other i error')
+
+	# 	height, width, channel = img.shape
+	# 	bytesPerLine = 3 * width
+	# 	qImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
+	# 	self.pixmap = QPixmap(qImg)
+	# 	self.label.setPixmap(self.pixmap)
+	# 	self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
+
+	# def segment(net, device, path, show_orig=True):
+
+	# 	det_img, boxes, pred_cls = object_detection_api(path,threshold=0.8)
+	# 	blurred_img = redundant_blurry(det_img, boxes, pred_cls) # 제일 큰 box 제외
+	# 	blurred_bgr = cv2.cvtColor(blurred_img, cv2.COLOR_RGB2BGR) # rgb 조정
+	# 	original_img = cv2.imread(path) # original
+
+	# 	img = Image.open(path)
+	# 	trf = T.Compose([T.ToTensor()])
+	# 	inp = trf(img).unsqueeze(0).to(device)
+	# 	out = net.to(device)(inp)['out']
+	# 	om = torch.argmax(out.squeeze(), dim=0).detach().cpu().numpy()
+	# 	iteration = 0
+
+	# 	for i in range(om.shape[0]):
+	# 		for j in range(om.shape[1]):
+	# 			iteration +=1
+	# 			if om[i,j] == 15:
+	# 				original_img[i,j,:] = blurred_bgr[i,j,:] # 사람인 pixel에 blur pixel 복사
+	# 	height, width, channel = blurred_bgr.shape
+	# 	bytesPerLine = 3 * width
+	# 	qImg = QImage(blurred_bgr.data, width, height, bytesPerLine, QImage.Format_RGB888)
+	# 	self.pixmap = QPixmap(qImg)
+	# 	self.label.setPixmap(self.pixmap)
+	# 	self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
+
 	def object_detection_api(self, img_path, threshold=0.5, rect_th=2, text_size=1.5, text_th=2): 
 		img = Image.open(img_path) # Load the image
 		transform = T.Compose([T.ToTensor()]) # Defing PyTorch Transform
