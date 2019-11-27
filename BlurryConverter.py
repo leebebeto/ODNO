@@ -194,7 +194,10 @@ class Ui_Form(object):
 			bytesPerLine = 3 * width
 			qImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
 			self.pixmap = QPixmap(qImg)
+			self.pixmap = self.pixmap.scaled(800, 600)
 			self.label.setPixmap(self.pixmap)
+			self.label.resize(800, 600)
+			self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 			self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 		
 		elif self.buttons[self.photo_button] == 1 and self.blurry_people_button.isChecked() and self.biggest_button.isChecked():
@@ -218,7 +221,10 @@ class Ui_Form(object):
 			bytesPerLine = 3 * width
 			qImg = QImage(blurred_bgr.data, width, height, bytesPerLine, QImage.Format_RGB888)
 			self.pixmap = QPixmap(qImg)
+			self.pixmap = self.pixmap.scaled(800, 600)
 			self.label.setPixmap(self.pixmap)
+			self.label.resize(800, 600)
+			self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 			self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 
 
@@ -241,11 +247,15 @@ class Ui_Form(object):
 			bytesPerLine = 3 * width
 			qImg = QImage(img.data, width, height, bytesPerLine, QImage.Format_RGB888)
 			self.pixmap = QPixmap(qImg)
+			self.pixmap = self.pixmap.scaled(800, 600)
 			self.label.setPixmap(self.pixmap)
+			self.label.resize(800, 600)
+			self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 			self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 
 		elif self.buttons[self.photo_button] == 1 and self.blurry_boxes_button.isChecked() and self.face_key_button.isChecked():
 			print('not yet')
+
 		else:
 			print('error')
 		self.conversion_button.setParent(None)
@@ -257,7 +267,9 @@ class Ui_Form(object):
 		self.image_path = fname[0]
 		self.label.setParent(None)
 		self.pixmap = QPixmap(self.image_path)
+		self.pixmap = self.pixmap.scaled(800, 600)
 		self.label.setPixmap(self.pixmap)
+		self.label.resize(800, 600)
 		self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 		self.upload_button.setParent(None)
 
@@ -323,25 +335,6 @@ class Ui_Form(object):
 		self.blurry_boxes_button.setChecked(False)
 		self.face_key_button.setChecked(False)
 		self.biggest_button.setChecked(False)
-		# for button in self.buttons.keys():
-		# 	if button == self.photo_button or button == self.video_button: 
-		# 		self.buttons[button] = 0
-		# 		button.setStyleSheet("background-color: light gray")
-		# 	else:
-		# 		print('here i am ')
-		# 		print(button)
-		# 		print('before', button.isChecked())
-		# 		button.setChecked(False)
-		# 		print('after', button.isChecked())
-
-		# self.label.setParent(None)
-		# self.upload_button.setParent(None)
-		# self.upload_button = QtWidgets.QPushButton(self.verticalLayoutWidget)
-		# self.upload_button.setMaximumSize(QtCore.QSize(300, 16777215))
-		# self.upload_button.setObjectName("upload_button")
-		# self.upload_button.setText(_translate("Form", "Upload your file here!"))
-		# self.resultLayout.addWidget(self.upload_button, 0, QtCore.Qt.AlignHCenter)
-
 
 	def button_clicked_colored(self, button, value):
 		if button == self.photo_button or button == self.video_button: 
