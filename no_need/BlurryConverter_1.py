@@ -82,6 +82,7 @@ class Ui_Form(object):
         self.reset.setObjectName("reset")
         self.blurry_layout_2.addWidget(self.reset)
         self.blurry_layout_2.addWidget(self.exit, 0, QtCore.Qt.AlignHCenter)
+
         self.exit.clicked.connect(self.exit_button_clicked)
         self.reset.clicked.connect(self.reset_button_clicked)
 
