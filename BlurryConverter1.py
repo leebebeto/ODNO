@@ -16,6 +16,7 @@ import cv2
 from PIL import Image
 import random
 from sort import *
+import errno
 
 class Ui_Form(object):
 	def setupUi(self, Form):
@@ -151,15 +152,15 @@ class Ui_Form(object):
 		img = Image.open(img_path) # Load the image
 		transform = T.Compose([T.ToTensor()]) # Defing PyTorch Transform
 		img = transform(img) # Apply the transform to the image
-		pred = self.model3([img]) # Pass the image to the model
+		pred = self.model1([img]) # Pass the image to the model
 		pred_class = [self.COCO_INSTANCE_CATEGORY_NAMES[i] for i in list(pred[0]['labels'].numpy())]  
 		pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
 		pred_score = list(pred[0]['scores'].detach().numpy())
 		pred_t = [pred_score.index(x) for x in pred_score if x > threshold][-1] 
 		pred_boxes = pred_boxes[:pred_t+1]
 		pred_class = pred_class[:pred_t+1]
-		masks = (pred[0]['masks']>0.5).squeeze().detach().cpu().numpy()
-		masks = masks[:pred_t+1]
+		# masks = (pred[0]['masks']>0.5).squeeze().detach().cpu().numpy()
+		# masks = masks[:pred_t+1]
 		boxes = pred_boxes
 		pred_cls = pred_class
 
@@ -265,26 +266,175 @@ class Ui_Form(object):
 	def upload_button_clicked(self):  
 		_translate = QtCore.QCoreApplication.translate
 		fname = QFileDialog.getOpenFileName(Form)
-		self.image_path = fname[0]
-		self.label.setParent(None)
-		self.pixmap = QPixmap(self.image_path)
-		self.pixmap = self.pixmap.scaled(800, 600)
-		self.label.setPixmap(self.pixmap)
-		self.label.resize(800, 600)
-		self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
-		self.upload_button.setParent(None)
 
-		try:
-			self.conversion_button.setParent(None)
-		except:
-			pass
+		print(self.buttons[self.photo_button])
+		print(self.buttons[self.video_button])
+		if self.buttons[self.photo_button] == 1:
+			self.image_path = fname[0]
+			print('in', self.image_path)
+			self.label.setParent(None)
+			self.pixmap = QPixmap(self.image_path)
+			self.pixmap = self.pixmap.scaled(800, 600)
+			self.label.setPixmap(self.pixmap)
+			self.label.resize(800, 600)
+			self.resultLayout.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
 
-		self.conversion_button = QtWidgets.QPushButton(self.verticalLayoutWidget)
-		self.conversion_button.setMaximumSize(QtCore.QSize(300, 16777215))
-		self.conversion_button.setObjectName("upload_button")
-		self.conversion_button.setText(_translate("Form", "Start Conversion"))
-		self.resultLayout.addWidget(self.conversion_button, 0, QtCore.Qt.AlignHCenter)
-		self.conversion_button.clicked.connect(partial(self.object_detection_api, self.image_path, threshold=0.8))
+			self.upload_button.setParent(None)
+			self.conversion_button = QtWidgets.QPushButton(self.verticalLayoutWidget)
+			self.conversion_button.setMaximumSize(QtCore.QSize(300, 16777215))
+			self.conversion_button.setObjectName("upload_button")
+			self.conversion_button.setText(_translate("Form", "Start Conversion"))
+			self.resultLayout.addWidget(self.conversion_button, 0, QtCore.Qt.AlignHCenter)
+			self.conversion_button.clicked.connect(partial(self.object_detection_api, self.image_path, threshold=0.8))
+
+		elif self.buttons[self.video_button] == 1:
+			self.label.setParent(None)
+			self.upload_button.setParent(None)
+			video_path = fname[0]
+			print(video_path)
+			video_folder_path = join(os.getcwd(), 'video/')
+			vidcap = cv2.VideoCapture(video_path)
+
+			if not vidcap.isOpened():
+				print('Could not find video file.')
+
+			success,image = vidcap.read()
+			count = 0
+			
+			try:
+				os.mkdir(join(video_folder_path,'video2image_folder'))
+
+			except OSError as exc:
+				if exc.errno != errno.EEXIST:
+					raise
+				pass
+
+			video2image_path = join(video_folder_path,'video2image_folder')
+			threshold = 0.8
+			while success:
+				success,image = vidcap.read()
+				print(count)
+				cv2.imwrite('temp.jpg', image)
+				img = Image.fromarray(image) # Load the image
+				transform = T.Compose([T.ToTensor()]) # Defing PyTorch Transform
+				img = transform(img) # Apply the transform to the image
+				pred = self.model1([img]) # Pass the image to the model
+				pred_class = [self.COCO_INSTANCE_CATEGORY_NAMES[i] for i in list(pred[0]['labels'].numpy())]  
+				pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
+				pred_score = list(pred[0]['scores'].detach().numpy())
+				pred_t = [pred_score.index(x) for x in pred_score if x > threshold][-1] 
+				pred_boxes = pred_boxes[:pred_t+1]
+				pred_class = pred_class[:pred_t+1]
+				boxes = pred_boxes
+				pred_cls = pred_class
+		
+				img = cv2.imread('temp.jpg')
+				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
+
+				box_size_dict = {}
+				box_coord_dict = {}
+				for i in range(len(boxes)):
+					x_len = abs(boxes[i][0][0] - boxes[i][1][0])
+					y_len = abs(boxes[i][0][1] - boxes[i][1][1])
+					box_size = x_len * y_len
+					box_size_dict[i] = box_size
+					box_coord_dict[i] = boxes[i] 
+				box_size_dict = sorted(box_size_dict.items(), key = lambda x: x[1], reverse = True)
+				print(box_size_dict)
+				for i in range(len(box_size_dict)):
+					box_idx = box_size_dict[i][0]
+					if i ==0:       
+						try:
+							cv2.rectangle(img, box_coord_dict[box_idx][0], box_coord_dict[box_idx][1],color=(103, 142, 240), thickness= rect_th) # Draw Rectangle with the coordinates
+						except:
+							print('i=0 error')
+					else:
+						try:
+							crop_img = img[int(boxes[box_idx][0][1]):int(boxes[box_idx][1][1]), int(boxes[box_idx][0][0]):int(boxes[box_idx][1][0])]
+							noised_img = cv2.blur(crop_img,(7,7),0)
+							img[int(boxes[box_idx][0][1]):int(boxes[box_idx][1][1]), int(boxes[box_idx][0][0]):int(boxes[box_idx][1][0])] = noised_img
+						except:
+							print('other i error')
+				if self.blurry_boxes_button.isChecked() and self.biggest_button.isChecked():
+					print(self.blurry_boxes_button.isChecked())
+					print(self.biggest_button.isChecked())
+					print(img)
+					img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
+
+					cv2.imwrite(join(video2image_path,"frame"+ str(count)+'.jpg'), img)     # save frame as JPEG file      
+
+				count += 1
+
+
+			video_path = join(os.getcwd(), 'video/video2image_folder/')
+			print(video_path)
+			filenames = os.listdir(video_path)
+			print(filenames)
+			img_array = []
+			for filename in filenames:
+			    data_file = join(video_path+filename)
+			    print(data_file)
+			    img = cv2.imread(data_file)
+			    height, width, layers = img.shape
+			    size = (width,height)
+			    img_array.append(img)
+			    out = cv2.VideoWriter(video_path + 'project.avi',cv2.VideoWriter_fourcc(*'DIVX'), 24, size)
+			# cap.release()
+			print(filenames)
+			for i in range(len(img_array)):
+			    print(i)
+			    out.write(img_array[i])
+			out.release()
+
+
+
+		# try:
+		# 	self.conversion_button.setParent(None)
+		# except:
+		# 	pass
+
+		# self.conversion_button = QtWidgets.QPushButton(self.verticalLayoutWidget)
+		# self.conversion_button.setMaximumSize(QtCore.QSize(300, 16777215))
+		# self.conversion_button.setObjectName("upload_button")
+		# self.conversion_button.setText(_translate("Form", "Start Conversion"))
+		# self.resultLayout.addWidget(self.conversion_button, 0, QtCore.Qt.AlignHCenter)
+		# self.conversion_button.clicked.connect(partial(self.object_detection_api, self.image_path, threshold=0.8))
+		# elif len(fname[0]) > 1: 
+		# 	video_path = fname[0][0]
+		# 	print(video_path)
+		# 	video_folder_path = join(os.getcwd(), 'video/')
+		# 	vidcap = cv2.VideoCapture(video_path)
+
+		# 	if not vidcap.isOpened():
+		# 		print('Could not find video file.')
+
+		# 	success,image = vidcap.read()
+		# 	count = 0
+			
+		# 	try:
+		# 		os.mkdir(join(video_folder_path,'video2image_folder'))
+		# 		os.mkdir(join(video_folder_path,'image2gif_folder'))
+		# 		os.mkdir(join(video_folder_path,'image2blurry_finished_folder'))
+
+		# 	except OSError as exc:
+		# 		if exc.errno != errno.EEXIST:
+		# 			raise
+		# 		pass
+
+		# 	video2image_path =""
+
+		# 	while success:
+		# 		success,image = vidcap.read()
+		# 		video2image_path = join(video_folder_path,'video2image_folder/')
+		# 		cv2.imwrite(video2image_path+"frame%d.jpg" % count, image)     # save frame as JPEG file      
+		# 		count += 1
+		# 		print(count)
+		# 	self.data_path = [video2image_path+img_path for img_path in os.listdir(video2image_path)]
+		# 	print('self.data_path', self.data_path)
+
+
+
+
 
 	def exit_button_clicked(self):
 		sys.exit(QtWidgets.QApplication(sys.argv).exec_())
