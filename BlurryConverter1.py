@@ -15,7 +15,6 @@ import matplotlib.pylab as plt
 import cv2
 from PIL import Image
 import random
-from sort import *
 import errno
 
 class Ui_Form(object):
