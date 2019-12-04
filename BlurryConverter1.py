@@ -314,6 +314,7 @@ class Ui_Form(object):
 				success,image = vidcap.read()
 				print(count)
 				try:
+					# asdasd
 					cv2.imwrite('temp.jpg', image)
 					img = Image.fromarray(image) # Load the image
 				except:
