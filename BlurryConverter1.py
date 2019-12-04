@@ -313,8 +313,12 @@ class Ui_Form(object):
 			while success:
 				success,image = vidcap.read()
 				print(count)
-				cv2.imwrite('temp.jpg', image)
-				img = Image.fromarray(image) # Load the image
+				try:
+					cv2.imwrite('temp.jpg', image)
+					img = Image.fromarray(image) # Load the image
+				except:
+					break
+
 				transform = T.Compose([T.ToTensor()]) # Defing PyTorch Transform
 				img = transform(img) # Apply the transform to the image
 				pred = self.model1([img]) # Pass the image to the model
