@@ -1,2 +1,2 @@
-# Deep-Learning-Project
+# ODNO
 Object Detection in Deep Learning Project
